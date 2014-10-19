@@ -37,8 +37,10 @@ class DAOTest extends \PHPUnit_Framework_TestCase {
 
    public function testFind() {
       $dao = DAO::get();
-      $result = $dao->find('\\model\\RecordTest', "name='test'");
+      $result = $dao->find('model\\RecordTest', "name='test'");
       $this->assertNotNull($result);
+
+      $this->assertEquals('test', $result->getName());
    }
 }
  
