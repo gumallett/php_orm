@@ -1,10 +1,12 @@
 <?php
 
-namespace model;
+namespace phporm;
+
+require_once __DIR__ . '/../globals.php';
+
+__autoload('\phporm\Identifiable');
 
 use ReflectionClass;
-
-require_once __DIR__ . '/../inc/globals.php';
 
 abstract class Record implements Identifiable {
 

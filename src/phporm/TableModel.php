@@ -1,9 +1,12 @@
 <?php
 
-namespace model;
+namespace phporm;
 
-use annotation\Annotation;
-use annotation\Annotations;
+require_once __DIR__ . '/../globals.php';
+
+__autoload('\phporm\annotation\Annotations');
+
+use phporm\annotation\Annotations;
 
 class TableModel {
 

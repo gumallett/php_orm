@@ -1,10 +1,11 @@
 <?php
 
-namespace annotation;
+namespace phporm\annotation;
+
+require_once __DIR__ . '/../../globals.php';
+__autoload('\phporm\annotation\Annotation');
 
 use \ReflectionClass;
-
-require_once __DIR__ . '/../inc/globals.php';
 
 class Annotations {
 

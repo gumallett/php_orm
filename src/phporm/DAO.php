@@ -1,10 +1,12 @@
 <?php
 
-namespace model;
+namespace phporm;
 
 require_once __DIR__ . '/../globals.php';
 
 __autoload('\Logger');
+__autoload('\phporm\Record');
+__autoload('\phporm\TableModel');
 
 use \Logger;
 use \mysqli;
@@ -28,6 +30,7 @@ class DAO {
    }
 
    public function find($class, $where, $args = array()) {
+      __autoload($class);
       $table = $class::getTable();
       $sql = "select * from $table where $where limit 1";
 
