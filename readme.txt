@@ -6,9 +6,8 @@ Run the bootstrap.sql file against a Mysql database of your choosing to allow th
 
 There are a couple of conventions (assumptions) used by this library:
 
-1) Put all of your model classes in model\*. An example has been provided: RecordTest.php
-2) Model classes should use the model namespace
-3) Model classes should extend phporm\Record
+1) Model classes should extend phporm\Record
+2) You should read the wiki on github
 
 A Logger class and an __autoload function are also provided for your convenience.
 
