@@ -22,7 +22,7 @@ class TableModel {
    private $table_id;
 
    public function __construct(Record $object) {
-      $this->table_name = $object->getTable();
+      $this->table_name = static::determineTableName($object);
       $this->table_id = $object->getId();
       $this->record = $object;
 
@@ -284,5 +284,18 @@ class TableModel {
 
       //\Logger::log($class_name);
       return $class_name;
+   }
+
+   private static function determineTableName($record) {
+      $annotations = new Annotations($record);
+
+      $classAnnotation = $annotations->getClassAnnotation();
+
+      \Logger::log($classAnnotation->getName() . " " . $classAnnotation->name);
+      if($classAnnotation->getName() == 'Table') {
+         return $classAnnotation->name;
+      }
+
+      return '';
    }
 }

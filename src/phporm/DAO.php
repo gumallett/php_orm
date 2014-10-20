@@ -10,6 +10,7 @@ __autoload('\phporm\TableModel');
 
 use \Logger;
 use \mysqli;
+use phporm\annotation\Annotations;
 
 class DAO {
 
@@ -38,7 +39,8 @@ class DAO {
 
    public function find($class, $where, $args = array()) {
       __autoload($class);
-      $table = $class::getTable();
+      $tableModel = new TableModel(new $class);
+      $table = $tableModel->getTableName();
       $sql = "select * from $table where $where limit 1";
 
       $result = $this->executeQuery($sql, $args);

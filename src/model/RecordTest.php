@@ -4,10 +4,16 @@ namespace model;
 
 require_once __DIR__ . '/../globals.php';
 
+__autoload('phporm\Record');
+
 use phporm\Record;
 
+/**
+ * {@Table(name="record_test")}
+ */
 class RecordTest extends Record {
 
+   public static $__CLASS__ = __CLASS__; // required
    private $id;
    private $name;
 
@@ -37,13 +43,6 @@ class RecordTest extends Record {
     */
    public function setName($name) {
       $this->name = $name;
-   }
-
-   /**
-    * @return string
-    */
-   public static function getTableName() {
-      return 'record_test';
    }
 }
  
