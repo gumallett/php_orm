@@ -15,9 +15,16 @@ class DAO {
 
    private $connection;
    private static $instance;
+   private $db_user;
+   private $db_password;
+   private $db_name;
 
    private function __construct() {
-      $this->connection = new mysqli("localhost", "root", "", "php_orm");
+      $this->db_name = DB_NAME;
+      $this->db_user = DB_USER;
+      $this->db_password = DB_PASSWORD;
+
+      $this->connection = new mysqli("localhost", $this->db_user, $this->db_password, $this->db_name);
       $this->connection->autocommit(false);
    }
 
