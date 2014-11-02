@@ -122,6 +122,7 @@ class TableModel {
                }
 
                $class = 'model\\' . $class;
+               model_load($class);
 
                if($id) {
                   $found_record = $class::find("id=$id");
@@ -138,6 +139,7 @@ class TableModel {
                }
 
                $class = 'model\\' . $class;
+               model_load($class);
                $key = $annotation->key;
 
 
