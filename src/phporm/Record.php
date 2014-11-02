@@ -2,11 +2,6 @@
 
 namespace phporm;
 
-require_once __DIR__ . '/../globals.php';
-
-__autoload('\phporm\Identifiable');
-__autoload('\phporm\DAO');
-
 abstract class Record implements Identifiable {
 
    public function __construct() {

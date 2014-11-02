@@ -2,10 +2,6 @@
 
 namespace phporm;
 
-require_once __DIR__ . '/../globals.php';
-
-__autoload('\phporm\annotation\Annotations');
-
 use phporm\annotation\Annotations;
 
 class TableModel {
@@ -291,7 +287,7 @@ class TableModel {
 
       $classAnnotation = $annotations->getClassAnnotation();
 
-      \Logger::log($classAnnotation->getName() . " " . $classAnnotation->name);
+      Logger::log($classAnnotation->getName() . " " . $classAnnotation->name);
       if($classAnnotation->getName() == 'Table') {
          return $classAnnotation->name;
       }

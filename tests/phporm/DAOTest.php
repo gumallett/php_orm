@@ -2,7 +2,7 @@
 
 namespace phporm;
 
-include_once __DIR__ . '/../../src/phporm/DAO.php';
+require_once __DIR__ . '/../../src/phporm/globals.php';
 
 class DAOTest extends \PHPUnit_Framework_TestCase {
 

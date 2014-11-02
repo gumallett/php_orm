@@ -2,10 +2,6 @@
 
 namespace model;
 
-require_once __DIR__ . '/../globals.php';
-
-__autoload('phporm\Record');
-
 use phporm\Record;
 
 /**

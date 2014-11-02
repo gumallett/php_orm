@@ -2,15 +2,7 @@
 
 namespace phporm;
 
-require_once __DIR__ . '/../globals.php';
-
-__autoload('\Logger');
-__autoload('\phporm\Record');
-__autoload('\phporm\TableModel');
-
-use \Logger;
 use \mysqli;
-use phporm\annotation\Annotations;
 
 class DAO {
 
@@ -38,7 +30,7 @@ class DAO {
    }
 
    public function find($class, $where, $args = array()) {
-      __autoload($class);
+       model_load($class);
       $tableModel = new TableModel(new $class);
       $table = $tableModel->getTableName();
       $sql = "select * from $table where $where limit 1";

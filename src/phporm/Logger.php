@@ -1,4 +1,6 @@
 <?php
+
+namespace phporm;
 /**
  * Simple logging
  */
