@@ -9,6 +9,12 @@ class RecordTest extends \PHPUnit_Framework_TestCase {
 
    public function testRecordFind() {
       $result = \model\RecordTest::find("name='test'");
+      $this->assertNotNull($result);
+      $this->assertNotNull($result->getId());
+      $this->assertNotNull($result->getName());
+      $this->assertNotNull($result->getADate());
+
+      $this->assertTrue($result->getADate() instanceof \DateTime);
    }
 
 }

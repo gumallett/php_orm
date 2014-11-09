@@ -3,6 +3,7 @@
 namespace model;
 
 use phporm\Record;
+use DateTime;
 
 /**
  * {@Table(name="record_test")}
@@ -12,6 +13,10 @@ class RecordTest extends Record {
    public static $__CLASS__ = __CLASS__; // required
    private $id;
    private $name;
+
+   /**
+    * {@Temporal}
+    */
    private $a_date;
 
    /**
@@ -43,16 +48,16 @@ class RecordTest extends Record {
    }
 
     /**
-     * @return mixed
+     * @return DateTime
      */
     public function getADate() {
         return $this->a_date;
     }
 
     /**
-     * @param mixed $a_date
+     * @param DateTime $a_date
      */
-    public function setADate($a_date) {
+    public function setADate(DateTime $a_date) {
         $this->a_date = $a_date;
     }
 
