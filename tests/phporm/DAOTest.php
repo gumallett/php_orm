@@ -35,6 +35,25 @@ class DAOTest extends \PHPUnit_Framework_TestCase {
       $this->assertEquals('test', $result['name']);
    }
 
+   public function testQueryDateArgReplacement() {
+       $dao = DAO::get();
+       $result = $dao->executeQuery('select * from record_test where a_date=:date', array('date' => new \DateTime('11/30/2014')));
+       $this->assertNotNull($result);
+
+       $result = $result->fetch_array();
+       $this->assertEquals(1, $result['id']);
+   }
+
+   public function testInsertDateArgReplacement() {
+       $dao = DAO::get();
+       $id = 2;
+       $success = $dao->executeInsert("insert into record_test values ($id,'testest',:date)", array('date' => new \DateTime('11/29/2014')));
+       $dao->commit();
+
+       $this->assertTrue($success);
+       $dao->executeQuery("delete from record_test where id=$id");
+   }
+
    public function testFind() {
       $dao = DAO::get();
       $result = $dao->find('model\\RecordTest', "name='test'");
