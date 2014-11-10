@@ -1,21 +1,23 @@
 <?php
 
-namespace model;
+namespace phporm;
 
-require_once __DIR__ . '/../globals.php';
-
-__autoload('\Logger');
-
-use \Logger;
 use \mysqli;
 
 class DAO {
 
    private $connection;
    private static $instance;
+   private $db_user;
+   private $db_password;
+   private $db_name;
 
    private function __construct() {
-      $this->connection = new mysqli("localhost", "root", "", "php_orm");
+      $this->db_name = DB_NAME;
+      $this->db_user = DB_USER;
+      $this->db_password = DB_PASSWORD;
+
+      $this->connection = new mysqli("localhost", $this->db_user, $this->db_password, $this->db_name);
       $this->connection->autocommit(false);
    }
 
@@ -28,7 +30,9 @@ class DAO {
    }
 
    public function find($class, $where, $args = array()) {
-      $table = $class::getTable();
+       model_load($class);
+      $tableModel = new TableModel(new $class);
+      $table = $tableModel->getTableName();
       $sql = "select * from $table where $where limit 1";
 
       $result = $this->executeQuery($sql, $args);
@@ -43,7 +47,8 @@ class DAO {
    }
 
    public function findAll($class, $where = null, $args = array()) {
-      $table = $class::getTable();
+      $tableModel = new TableModel(new $class);
+      $table = $tableModel->getTableName();
       $sql = "select * from $table ";
 
       if(isset($where)) {
@@ -210,6 +215,11 @@ class DAO {
          elseif(is_float($val)) {
             $sql = preg_replace("/:$param(,|\))/m", "$val$1", $sql);
             $sql = preg_replace("/:$param(,|\s|$)/m", "$val$1", $sql);
+         }
+         elseif($val instanceof \DateTime) {
+            $dateString = $val->format('Y-m-d H:i:s');
+            $sql = preg_replace("/:$param(,|\))/m", "'$dateString'$1", $sql);
+            $sql = preg_replace("/:$param(,|\s|$)/m", "'$dateString'$1", $sql);
          }
          else {
             $val = $this->connection->real_escape_string($val);

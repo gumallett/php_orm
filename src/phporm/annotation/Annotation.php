@@ -1,8 +1,6 @@
 <?php
 
-namespace annotation;
-
-require_once __DIR__ . '/../inc/globals.php';
+namespace phporm\annotation;
 
 class Annotation {
 

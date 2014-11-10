@@ -1,9 +1,10 @@
 <?php
 
-namespace model;
+namespace phporm;
 
-use annotation\Annotation;
-use annotation\Annotations;
+use phporm\annotation\Annotations;
+use DateTime;
+use Exception;
 
 class TableModel {
 
@@ -19,7 +20,7 @@ class TableModel {
    private $table_id;
 
    public function __construct(Record $object) {
-      $this->table_name = $object->getTable();
+      $this->table_name = static::determineTableName($object);
       $this->table_id = $object->getId();
       $this->record = $object;
 
@@ -61,6 +62,24 @@ class TableModel {
 
                case 'OneToMany':
                   $this->relation_types[$col_name] = $annotation;
+                  break;
+
+               case 'Temporal':
+                  if($value && !$value instanceof DateTime) {
+                      try {
+                          $dateObj = new DateTime($value);
+                          $this->attributes[$col_name] = $dateObj;
+                          $setter = self::getSetter($col_name);
+                          $this->record->$setter($dateObj);
+                      }
+                      catch(Exception $e) {
+                          Logger::log($e->getMessage());
+                      }
+                  }
+                  else if($value && $value instanceof DateTime) {
+                      $this->attributes[$col_name] = $value;
+                  }
+
                   break;
 
                //TODO: handle other anno types here
@@ -123,6 +142,7 @@ class TableModel {
                }
 
                $class = 'model\\' . $class;
+               model_load($class);
 
                if($id) {
                   $found_record = $class::find("id=$id");
@@ -139,6 +159,7 @@ class TableModel {
                }
 
                $class = 'model\\' . $class;
+               model_load($class);
                $key = $annotation->key;
 
 
@@ -281,5 +302,18 @@ class TableModel {
 
       //\Logger::log($class_name);
       return $class_name;
+   }
+
+   private static function determineTableName($record) {
+      $annotations = new Annotations($record);
+
+      $classAnnotation = $annotations->getClassAnnotation();
+
+      Logger::log($classAnnotation->getName() . " " . $classAnnotation->name);
+      if($classAnnotation->getName() == 'Table') {
+         return $classAnnotation->name;
+      }
+
+      return '';
    }
 }

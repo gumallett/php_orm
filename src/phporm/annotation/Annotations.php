@@ -1,10 +1,8 @@
 <?php
 
-namespace annotation;
+namespace phporm\annotation;
 
 use \ReflectionClass;
-
-require_once __DIR__ . '/../inc/globals.php';
 
 class Annotations {
 
@@ -18,7 +16,11 @@ class Annotations {
       $this->properties = $metadata->getProperties();
 
       $arr = array();
-      foreach($this->properties as $prop) {
+      foreach($this->properties as $key => $prop) {
+         //ignore static props
+         if($prop->isStatic()) {
+             unset($this->properties[$key]);
+         }
          $comment = $prop->getDocComment();
 
          if($comment) {
